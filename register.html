@@ -1,0 +1,152 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register and Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h2 class="logo">Register Page</h2>
+    <nav class="navigation">
+        <button class="loginBtn" onclick="LoginNavigate()">Login</button>
+    </nav>
+    </header>
+    <div class="wrapper">
+        <div class="form-box login">
+            <h2>Register</h2>
+            <!-- <form action="#" method="get" onsubmit="return check()" novalidate>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon><label>First Name</label>
+                        <input type="text" id="f-name" required>
+                        <div id="f-name-error" class="error-msg"></div>
+                    </span>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon><label>Last Name</label>
+                        <input type="text" id="l-name" required>
+                    </span>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon><label>Email</label>
+                        <input type="email" id="email" required>
+                    </span>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon><label>Username</label>
+                        <input type="text" id="username" required>
+                    </span>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon><label>Password</label>
+                        <input type="password" id="password" required>
+                    </span>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon><label>Confirm Password</label>
+                        <input type="password" id="cpassword" required>
+                    </span>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon><label>Select</label>
+                        <select id="select">
+                            <option value="Admin">Admin</option>
+                            <option value="User" selected>User</option>
+                        </select>
+                    </span>
+                </div>
+                <button type="reset" class="btn bg-red-hover">Cancel</button>
+                <button type="submit" class="btn bg-green-hover" onclick="Register()">Save</button>
+                
+            </form> -->
+
+            <form class="needs-validation" novalidate>
+                <div>
+                  <label for="f-name" class="form-label">First name</label>
+                  <input type="text" class="form-control" id="f-name" onkeyup="ValidateData()" required>
+                  <div class="invalid-first-name"></div>
+                </div>
+                <div>
+                  <label for="l-name" class="form-label">Last name</label>
+                  <input type="text" class="form-control" id="l-name" required>
+                  <div class="invalid-last-name">
+                    Please Enter Last Name
+                  </div>
+                </div>
+                <div>
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="username" required>
+                  <div class="invalid-username">
+                    Please Enter Last Name
+                  </div>
+                </div>
+                <div>
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" required>
+                    <div class="invalid-email">
+                      Please provide a valid Email.
+                    </div>
+                  </div>
+                <div>
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" name="pass" required>
+                  <div class="invalid-password">
+                    Please provide a valid Password.
+                  </div>
+                </div>
+                <div>
+                  <label for="cpassword" class="form-label">Confirm Password</label>
+                  <input type="password" class="form-control" id="cpassword" name="cpass" required>
+                  <div class="invalid-cpassword">
+                    Password and Confirm Password Not Matched.
+                  </div>
+                </div>
+                <div>
+                  <label for="select" class="form-label">Role</label>
+                  <select class="form-select" id="select" required>
+                    <option value="Admin">Admin</option>
+                    <option value="User" selected>User</option>
+                  </select>
+                  <div class="invalid-role">
+                    Please select a valid Role.
+                  </div>
+                </div>
+                
+                <div>
+                </div>
+                <div>
+                  <button class="btn btn-success" type="submit" onclick="Register()">Save</button>
+                </div>
+              </form>
+        </div>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+    var firstError=document.getElementById("invalid-first-name");
+        function ValidateData(){
+  //  var lastError=document.getElementById("l-name");
+  //  var emailError=document.getElementById("f-name");
+  //  var usernameError=document.getElementById("f-name");
+  //  var passwordError=document.getElementById("f-name");
+  //  var cpasswordError=document.getElementById("f-name");
+  //  var roleError=document.getElementById("f-name");
+
+  var firstNameValidate=document.getElementById("f-name");
+  
+  if(firstNameValidate==0){
+    firstError.innerHTML="Please Enter First Name";
+    return false;
+  }
+  firstError.innerHTML="Valid";
+  return true;
+   
+}
+    </script>
+</body>
+</html>
