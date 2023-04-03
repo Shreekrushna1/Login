@@ -10,7 +10,7 @@
     <header>
       <h2 class="logo">Login Page</h2>
       <nav class="navigation">
-        <button class="loginBtn" onclick="RegisterNavigate()">Register</button>
+        <button class="loginBtn" onclick="registerNavigate()">Register</button>
       </nav>
     </header>
     <div class="wrapper-2">
@@ -20,23 +20,34 @@
           <div class="input-box">
             <span class="icon"
               ><ion-icon name="person"></ion-icon><label>Username</label>
-              <input type="text" id="username" required />
+              <input type="text" id="username" class="form-control" required />
+              <div id="error-username" class="error-msg"></div>
             </span>
           </div>
           <div class="input-box">
             <span class="icon"
               ><ion-icon name="lock-closed"></ion-icon><label>Password</label>
-              <input type="password" id="password" required />
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                required
+              />
+              <div id="error-password" class="error-msg"></div>
             </span>
           </div>
           <button
             type="reset"
             class="btn bg-red-hover"
-            onclick="RegisterNavigate()"
+            onclick="registerNavigate()"
           >
             Cancel
           </button>
-          <button type="submit" class="btn bg-green-hover" onclick="Login()">
+          <button
+            type="submit"
+            class="btn bg-green-hover"
+            onclick="userLogin()"
+          >
             Save
           </button>
         </form>

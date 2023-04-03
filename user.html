@@ -1,33 +1,27 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Panel</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+  <body onload="findUsername()">
     <header>
-        <h2 class="logo">User Page</h2>
-    <nav class="navigation">
-        <button class="loginBtn" onclick="LoginNavigate()">Log Out</button>
-    </nav>
+      <h2 class="logo">User Page</h2>
+      <nav class="navigation">
+        <button class="loginBtn" onclick="logOut()">Log Out</button>
+      </nav>
     </header>
     <div class="d-flex">
-        <h1>Welcome To User Panel</h1>   
+      <h1>Welcome To User Panel</h1>
     </div>
     <div class="user">
-    <p id="first-name"></p>&nbsp;
-    <p id="last-name"></p>
+      <p id="f-name"></p>
+      &nbsp;
+      <p id="l-name"></p>
     </div>
-    
-    <script src="script.js"></script>
-    <script>
-        let userNames=JSON.parse(localStorage.getItem("Users"));
-        let findUsername = userNames.find((item) => item.firstName && item.lastName);
-        console.log(findUsername);
-        document.getElementById("first-name").innerHTML=findUsername.firstName;
-        document.getElementById("last-name").innerHTML=findUsername.lastName;
-    </script>
-</body>
+    <script></script>
+  </body>
 </html>
