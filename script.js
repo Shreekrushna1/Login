@@ -1,4 +1,5 @@
 let users = JSON.parse(localStorage.getItem("Users")) || [];
+let books = JSON.parse(localStorage.getItem("Books")) || [];
 
 function adminLogout() {
   loginNavigate();
@@ -36,18 +37,18 @@ function checkData(loginData) {
     document.getElementById("error-password").style.display = "none";
   }
 }
-function findUsername() {
-  const myUrl2 = new URL(window.location.toLocaleString());
-  const urlParams = new URL(myUrl2).searchParams;
-  const urname = urlParams.get("userName");
-  let currentUserLogin = users.find((item) => item.username === urname);
-  if (currentUserLogin) {
-    document.getElementById("f-name").innerHTML = currentUserLogin.firstName;
-    document.getElementById("l-name").innerHTML = currentUserLogin.lastName;
-  } else {
-    alert("not matched");
-  }
-}
+// function findUsername() {
+//   const myUrl2 = new URL(window.location.toLocaleString());
+//   const urlParams = new URL(myUrl2).searchParams;
+//   const urname = urlParams.get("userName");
+//   let currentUserLogin = users.find((item) => item.username === urname);
+//   if (currentUserLogin) {
+//     document.getElementById("f-name").innerHTML = currentUserLogin.firstName;
+//     document.getElementById("l-name").innerHTML = currentUserLogin.lastName;
+//   } else {
+//     alert("not matched");
+//   }
+// }
 function userLogin() {
   let loginData = {
     username: document.getElementById("username").value,
@@ -207,3 +208,149 @@ function adminPanel() {
 function userPanel() {
   window.location.href = "user.html";
 }
+
+
+
+
+
+
+// Books
+
+
+
+
+function createBook(){
+  var bookData={
+    bookName:document.getElementById("bname").value,
+    authorName:document.getElementById("aname").value,
+    bookPrice:document.getElementById("bprice").value,
+    bookDescription:document.getElementById("descrip").value,
+    bookBuy:[]
+  }
+  validateBookData(bookData);
+  
+}
+
+function validateBookData(bookData){
+  books = JSON.parse(localStorage.getItem("Books"))|| [];
+  if (bookData) {
+    let bookN;
+    let authorN;
+    let bookP;
+    let bookD;
+    if (bookData.bookName === 0) {
+      document.getElementById("error-bname").innerHTML =
+        "Book name is required";
+      document.getElementById("error-bname").style.color = "red";
+      document.getElementById("error-bname").style.fontWeight = "bold";
+      document.getElementById("bname").style.border = "3px solid red";
+    }
+    else if(books.find((item)=>item.bookName===bookData.bookName)){
+      document.getElementById("error-bname").innerHTML =
+        "Book Name is Already Stored";
+      document.getElementById("error-bname").style.color = "red";
+      document.getElementById("error-bname").style.fontWeight = "bold";
+      document.getElementById("bname").style.border = "3px solid red";
+    } 
+    else {
+      document.getElementById("bname").style.border = "3px solid green";
+      document.getElementById("error-bname").style.display = "none";
+      bookN = 1;
+    }
+    if (bookData.authorName == 0) {
+      document.getElementById("error-aname").innerHTML =
+        "Author name is required";
+      document.getElementById("error-aname").style.color = "red";
+      document.getElementById("error-aname").style.fontWeight = "bold";
+      document.getElementById("aname").style.border = "3px solid red";
+    } else {
+      document.getElementById("aname").style.border = "3px solid green";
+      document.getElementById("error-aname").style.display = "none";
+      authorN = 1;
+    }
+    if (bookData.bookPrice == 0) {
+      document.getElementById("error-bprice").innerHTML =
+        "Book price is required";
+      document.getElementById("error-bprice").style.color = "red";
+      document.getElementById("error-bprice").style.fontWeight = "bold";
+      document.getElementById("bprice").style.border = "3px solid red";
+    } else {
+      document.getElementById("bprice").style.border = "3px solid green";
+      document.getElementById("error-bprice").style.display = "none";
+      bookP = 1;
+    }
+    if (bookData.bookDescription == 0) {
+      document.getElementById("error-descrip").innerHTML =
+        "Book Description is required";
+      document.getElementById("error-descrip").style.color = "red";
+      document.getElementById("error-descrip").style.fontWeight = "bold";
+      document.getElementById("descrip").style.border = "3px solid red";
+    } else {
+      document.getElementById("descrip").style.border = "3px solid green";
+      document.getElementById("error-descrip").style.display = "none";
+      bookD = 1;
+    }
+    if (bookN && authorN && bookP && bookD===1) {
+      successAlert(bookData); 
+      }
+      
+    }
+}
+function successAlert(bookData){
+  Swal.fire({
+    title: 'success',
+    text: 'Book Details Are Saved',
+    icon: 'success',
+  }).then(() => {
+    var uname = bookData.bookName;
+        var url = "admin.html";
+        url += "?bookName=" + encodeURIComponent(uname);
+        window.location.href = url;
+          books.push(bookData);
+          localStorage.setItem("Books", JSON.stringify(books));
+});
+}
+
+function purchaseBook(){
+  const myUrl2 = new URL(window.location.toLocaleString());
+  const urlParams = new URL(myUrl2).searchParams;
+  const username = urlParams.get("userName");  
+  let selectedData={
+    buyedBook:document.getElementById("select").value,
+    usernameKey:username
+  }
+  console.log(selectedData);
+  if(selectedData.buyedBook==="none"){
+    Swal.fire({
+      title: 'error',
+      text: 'You Not Selected Any Book',
+      icon: 'error',
+    });
+  }else if(selectedData){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't to buy this book",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, i confirm!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let books = JSON.parse(localStorage.getItem("Books"));
+        let selectedBook = books.find((book) => book.bookName === selectedData.buyedBook);
+        if (selectedBook) {
+          selectedBook.bookBuy.push(selectedData.usernameKey);
+          localStorage.setItem("Books", JSON.stringify(books));
+        }
+        Swal.fire(
+          'Buyed Success!',
+          'Your Book is Buyed Successfully',
+          'success'
+        )
+      }
+    })
+  }
+}
+
+  
