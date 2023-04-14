@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body onload="onLoad()">
     <header>
       <h2 class="logo">User Page</h2>
       <nav class="navigation">
@@ -34,32 +34,21 @@
     </select>
     <div id="show"></div>
     <button class="purButton" onclick="purchaseBook()">Purchase</button>
+
+    <table class="table table-bordered text-center">
+      <thead >
+        <tr>
+          <th scope="col">Book Name</th>
+          <th scope="col">Author Name</th>
+          <th scope="col">Book Price</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+        </tr>
+      </tbody>
+    </table>
     <script src="script.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script>
-      let bookNames = JSON.parse(localStorage.getItem("Books"));
-      let findd=bookNames.map((item)  => { return item.bookName });
-      const myUrl2 = new URL(window.location.toLocaleString());
-      const urlParams = new URL(myUrl2).searchParams;
-      const urname = urlParams.get("userName");
-
-      let findUser=bookNames.find(item=> item.bookBuy );
-      console.log(findUser);
-      console.log(urname);
-
-      if (findUser==urname) {
-        alert("Matched");
-      }
-
-
-      $.each(findd, function (key, value) {
-        if (findd) {
-          $("select").append(`
-              <option value="${value}">${value}</option>
-                      `);
-        }
-      });
-      
-    </script>
   </body>
 </html>

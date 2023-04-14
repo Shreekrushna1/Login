@@ -37,18 +37,7 @@ function checkData(loginData) {
     document.getElementById("error-password").style.display = "none";
   }
 }
-// function findUsername() {
-//   const myUrl2 = new URL(window.location.toLocaleString());
-//   const urlParams = new URL(myUrl2).searchParams;
-//   const urname = urlParams.get("userName");
-//   let currentUserLogin = users.find((item) => item.username === urname);
-//   if (currentUserLogin) {
-//     document.getElementById("f-name").innerHTML = currentUserLogin.firstName;
-//     document.getElementById("l-name").innerHTML = currentUserLogin.lastName;
-//   } else {
-//     alert("not matched");
-//   }
-// }
+
 function userLogin() {
   let loginData = {
     username: document.getElementById("username").value,
@@ -69,6 +58,7 @@ function userLogin() {
       alert("User Log-In Successful");
       loginUser.action = true;
       localStorage.setItem("Users", JSON.stringify(users));
+      
     } else {
       adminPanel();
       alert("Admin Log-In Successful");
@@ -310,47 +300,108 @@ function successAlert(bookData){
           localStorage.setItem("Books", JSON.stringify(books));
 });
 }
+function onLoadAdmin() {
+  let bookNames = JSON.parse(localStorage.getItem("Books"));
+  const tbody = document.querySelector("tbody");
+      bookNames.forEach((item)=>{
+      if(item){
+        tbody.innerHTML+=`
+        <tr>
+        <td>${item.bookName}</td>
+        <td>${item.authorName}</td>
+        <td>${item.bookPrice}</td>
+        <td>${item.bookDescription}</td>
+        <td>${item.bookBuy}</td>
+        `
+      }
+      })
+}
+function onLoad() {
+  const myUrl2 = new URL(window.location.toLocaleString());
+  const urlParams = new URL(myUrl2).searchParams;
+  let findd = books.map((item) => { return item.bookName });
+  const username = urlParams.get("userName");
+  const tbody = document.querySelector("tbody");
+  const select = document.getElementById("select");
+  let findUser = books.map((item) => {
+    if (item.bookBuy.includes(username)) {
+      return item;
+    }
+  });
+
+  findd.forEach((item) => {
+    if (item) {
+      const option = document.createElement("option");
+      option.value = item;
+      option.textContent = item;
+      select.appendChild(option);
+    }
+  });
+
+  findUser.forEach((item) => {
+    if (item) {
+      tbody.innerHTML += `
+      <tr>
+      <td>${item.bookName}</td>
+      <td>${item.authorName}</td>
+      <td>${item.bookPrice}</td>
+      <td>${item.bookDescription}</td>
+      </tr>
+      `
+    }
+  });
+}
 
 function purchaseBook(){
+  books = JSON.parse(localStorage.getItem("Books"));
   const myUrl2 = new URL(window.location.toLocaleString());
   const urlParams = new URL(myUrl2).searchParams;
   const username = urlParams.get("userName");  
   let selectedData={
     buyedBook:document.getElementById("select").value,
+    findBooks:books.find((item)=>{return item.bookBuy}),
     usernameKey:username
   }
-  console.log(selectedData);
   if(selectedData.buyedBook==="none"){
     Swal.fire({
       title: 'error',
       text: 'You Not Selected Any Book',
       icon: 'error',
     });
-  }else if(selectedData){
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't to buy this book",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, i confirm!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let books = JSON.parse(localStorage.getItem("Books"));
-        let selectedBook = books.find((book) => book.bookName === selectedData.buyedBook);
-        if (selectedBook) {
-          selectedBook.bookBuy.push(selectedData.usernameKey);
-          localStorage.setItem("Books", JSON.stringify(books));
+  }
+  else{
+    let selectedBook = books.find((book) => book.bookName === selectedData.buyedBook);
+    if (selectedBook && selectedBook.bookBuy.includes(selectedData.usernameKey)) {
+      Swal.fire({
+        title: 'error',
+        text: 'You Already Purchased This Book',
+        icon: 'error',
+      });
+    }
+    else {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You want to buy this book",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, I confirm!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let selectedBook = books.find((book) => book.bookName === selectedData.buyedBook);
+          if (selectedBook) {
+            selectedBook.bookBuy.push(selectedData.usernameKey);
+            localStorage.setItem("Books", JSON.stringify(books));
+          }
+          Swal.fire(
+            'Buyed Success!',
+            'Your Book is Buyed Successfully',
+            'success'
+          )
         }
-        Swal.fire(
-          'Buyed Success!',
-          'Your Book is Buyed Successfully',
-          'success'
-        )
-      }
-    })
+      })
+    }
   }
 }
-
   
